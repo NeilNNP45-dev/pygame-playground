@@ -28,6 +28,8 @@ sun = Body(500,500,0,0,(255,255,0),30,7500)
 planet2 = Body(500,100,20,0,(255,0,0),15,5)
 bodies = [sun,planet1,planet2]
 G= 1
+ax = 1
+ay = 1
 def update_physics(bodies):
     sun = bodies[0]
     for body in bodies:
@@ -36,11 +38,7 @@ def update_physics(bodies):
         dx = sun.x - body.x
         dy = sun.y - body.y 
         distance = math.sqrt(dx**2 + dy**2 +100)
-        ax = 1
-        ay = 1
         a = G*sun.mass/distance**2
-        ax = ax + a * (dx/distance)
-        ay = ay + a * (dy/distance)
         body.vx += ax * (dx/distance)
         body.x +=  body.vx
         body.vy += ay* (dy/distance)  
