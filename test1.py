@@ -5,8 +5,9 @@ import math
 
 pygame.init()
 
-WIDTH = 800
-HEIGHT = 600
+WIDTH = 1000
+HEIGHT = 1000
+
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
@@ -22,13 +23,11 @@ class Body:
         self.color = color
         self.radius = radius
         self.mass = mass
-planet1 = Body(400,150,9,0,(0,0,255),25,100)
-sun = Body(400,300,0,0,(255,255,0),50,10000000)
-planet2 = Body(400,50,11,0,(255,0,0),30,5000)
+planet1 = Body(500,300,15,0,(0,0,255),10,1)
+sun = Body(500,500,0,0,(255,255,0),30,7500)
+planet2 = Body(500,100,20,0,(255,0,0),15,5)
 bodies = [sun,planet1,planet2]
-ax = 0.5
-ay = 0.5
-G= 100
+G= 1
 def update_physics(bodies):
     sun = bodies[0]
     for body in bodies:
@@ -36,24 +35,29 @@ def update_physics(bodies):
             continue
         dx = sun.x - body.x
         dy = sun.y - body.y 
-        distance = math.sqrt(dx**2 + dy**2 + 100)
+        distance = math.sqrt(dx**2 + dy**2 +100)
+        ax = 1
+        ay = 1
+        a = G*sun.mass/distance**2
+        ax = ax + a * (dx/distance)
+        ay = ay + a * (dy/distance)
         body.vx += ax * (dx/distance)
         body.x +=  body.vx
-        body.vy += ay * (dy/distance)  
+        body.vy += ay* (dy/distance)  
         body.y += body.vy
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
     screen.fill((0,0,0))
+    update_physics(bodies)
     for body in bodies:
         pygame.draw.circle(screen,(body.color),(body.x,body.y),body.radius)
-        update_physics(bodies)
-    if body.x+body.radius>=WIDTH or body.x-body.radius<=0:
-        body.vx*= -1
-    if body.y+body.radius>=HEIGHT or body.y-body.radius<=0:
-        body.y = HEIGHT-body.radius
-        body.vy*= -1
+        if body.x+body.radius>=WIDTH or body.x-body.radius<=0:
+           body.vx*= -1
+        if body.y+body.radius>=HEIGHT or body.y-body.radius<=0:
+           body.y = HEIGHT-body.radius
+           body.vy*= -1
     pygame.display.flip()
     clock.tick(60)
 pygame.quit()
