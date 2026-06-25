@@ -77,8 +77,9 @@ while running:
                 sy1 = (y1 - camera_y) * zoom + HEIGHT/2
                 sx2 = (x2 - camera_x) * zoom + WIDTH/2
                 sy2 = (y2 - camera_y) * zoom + HEIGHT/2
-                pygame.draw.line(screen,body.color,(sx1,sy1),(sx2,sy2),2)        
-        pygame.draw.circle(screen,(body.color),(sx,sy),body.radius)
+                pygame.draw.line(screen,body.color,(sx1,sy1),(sx2,sy2),2) 
+        scaled_radius = max(1, int(body.radius*zoom))               
+        pygame.draw.circle(screen,(body.color),(int(sx),int(sy)),body.radius)
     pygame.display.flip()
     clock.tick(60)
 pygame.quit()
