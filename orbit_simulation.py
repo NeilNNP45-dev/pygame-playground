@@ -7,7 +7,7 @@ pygame.init()
 
 WIDTH = 1000
 HEIGHT = 1000
-MAX_TRAIL = 1000
+MAX_TRAIL = 800
 zoom = 1.0
 camera_x = WIDTH/2
 camera_y = HEIGHT/2
@@ -29,11 +29,12 @@ class Body:
         self.mass = mass
         self.trail = []
 planet1 = Body(500,300,6.1,0,(0,0,255),10,1)
-sun = Body(500,500,0,0,(255,255,0),30,7500)
+sun = Body(500,500,0,0,(255,255,0),30,7400)
 planet2 = Body(500,100,4.3,0,(255,0,0),15,1)
 planet3 = Body(500,200,5,0,(180,0,255),12.5,1)
 planet4 = Body(500,0,3.8,0,(0,255,255),17,1 )
-bodies = [sun,planet1,planet2,planet3,planet4]
+planet5 = Body(500,400,8.66,0,(255,167,0),9,1)
+bodies = [sun,planet1,planet2,planet3,planet4,planet5]
 G= 1
 def update_physics(bodies):
     for body in bodies:
