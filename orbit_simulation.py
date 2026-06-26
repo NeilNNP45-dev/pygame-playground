@@ -7,7 +7,7 @@ pygame.init()
 
 WIDTH = 1000
 HEIGHT = 1000
-MAX_TRAIL = 800
+MAX_TRAIL = 1000
 zoom = 1.0
 camera_x = WIDTH/2
 camera_y = HEIGHT/2
@@ -36,6 +36,8 @@ planet4 = Body(500,0,3.8,0,(0,255,255),17,1 )
 planet5 = Body(500,400,8.66,0,(255,167,0),9,1)
 bodies = [sun,planet1,planet2,planet3,planet4,planet5]
 G= 1
+time_scale = 60
+dt = clock.tick(60) / 1000
 def update_physics(bodies):
     for body in bodies:
         total_ax = 0
@@ -51,10 +53,10 @@ def update_physics(bodies):
             ay = a*dy/distance
             total_ax += ax
             total_ay += ay
-        body.vx += total_ax
-        body.vy += total_ay
-        body.x += body.vx
-        body.y += body.vy         
+        body.vx += total_ax*dt*time_scale
+        body.vy += total_ay*dt*time_scale
+        body.x += body.vx*dt*time_scale
+        body.y += body.vy*dt*time_scale         
         body.trail.append((body.x, body.y))
         if len(body.trail)>MAX_TRAIL:
             body.trail.pop(0)
@@ -68,13 +70,13 @@ while running:
     if keys[pygame.K_o]:
             zoom/= 1.01  
     if keys[pygame.K_a]:
-     camera_x -= 5 / zoom  
+     camera_x -= 300*dt/ zoom  
     if keys[pygame.K_d]:
-     camera_x += 5 / zoom
+     camera_x += 300*dt / zoom
     if keys[pygame.K_w]:
-     camera_y -= 5 / zoom
+     camera_y -= 300*dt/ zoom
     if keys[pygame.K_s]:
-     camera_y += 5 / zoom             
+     camera_y += 300*dt / zoom             
     screen.fill((0,0,0))
     update_physics(bodies)
     for body in bodies:
