@@ -7,7 +7,7 @@ pygame.init()
 
 WIDTH = 1000
 HEIGHT = 1000
-MAX_TRAIL = 1000
+MAX_TRAIL = 600
 zoom = 1.0
 camera_x = WIDTH/2
 camera_y = HEIGHT/2
@@ -29,15 +29,14 @@ class Body:
         self.mass = mass
         self.trail = []
 planet1 = Body(500,300,6.1,0,(0,0,255),10,1)
-sun = Body(500,500,0,0,(255,255,0),30,7400)
+sun = Body(500,500,0,0,(255,255,0),30,7500)
 planet2 = Body(500,100,4.3,0,(255,0,0),15,1)
 planet3 = Body(500,200,5,0,(180,0,255),12.5,1)
 planet4 = Body(500,0,3.8,0,(0,255,255),17,1 )
-planet5 = Body(500,400,8.66,0,(255,167,0),9,1)
+planet5 = Body(500,400,8.48,0,(255,167,0),9,1)
 bodies = [sun,planet1,planet2,planet3,planet4,planet5]
 G= 1
-time_scale = 60
-dt = clock.tick(60) / 1000
+time_scale = 80
 def update_physics(bodies):
     for body in bodies:
         total_ax = 0
@@ -61,6 +60,7 @@ def update_physics(bodies):
         if len(body.trail)>MAX_TRAIL:
             body.trail.pop(0)
 while running:
+    dt = (clock.tick(60)/1000)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -93,6 +93,5 @@ while running:
         scaled_radius = max(1, int(body.radius*zoom))               
         pygame.draw.circle(screen,(body.color),(int(sx),int(sy)),scaled_radius)
     pygame.display.flip()
-    clock.tick(60)
 pygame.quit()
 sys.exit()
